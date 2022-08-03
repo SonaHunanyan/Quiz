@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:quize/constants.dart' as constants;
+import 'package:quize/presentation/quize/quize_screen.dart';
+import 'package:quize/presentation/share/app_bar_title.dart';
 import 'package:quize/presentation/state_addition_mixin.dart';
 import 'package:quize/style.dart';
 
@@ -18,7 +18,7 @@ class _State extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: _AppBarTitle(),
+          title: const AppBarTitle(),
           backgroundColor: colorPink,
         ),
         backgroundColor: colorWhite,
@@ -60,23 +60,11 @@ class _State extends State<HomeScreen> {
     });
   }
 
-  void _onStartTap() {}
-
-  Future<void> fetchAlbum() async {
-    final queryParameters = {'apiKey': constants.apiKey, 'limit': '10'};
-    final uri = Uri.parse(constants.endpointUrl)
-        .replace(queryParameters: queryParameters);
-    final response = await http.get(uri);
-
-    print(response);
-  }
-}
-
-class _AppBarTitle extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text('Quize',
-        style: getStyle(color: colorWhite, weight: FontWeight.w700));
+  void _onStartTap() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => QuizeScreen(
+              selectedDifficulty: _selectedDiffilculty,
+            )));
   }
 }
 
