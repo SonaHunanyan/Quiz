@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:quize/data/model/correct_answers.dart';
-import 'package:quize/data/model/quize.dart';
+import 'package:quize/data/model/quiz.dart';
 import 'package:quize/presentation/share/rounded_button.dart';
 import 'package:quize/presentation/state_addition_mixin.dart';
 import 'package:quize/style.dart';
 
-class QuizeItemWidget extends StatefulWidget {
-  const QuizeItemWidget(
+class QuizItemWidget extends StatefulWidget {
+  const QuizItemWidget(
       {Key? key,
-      required this.quizeItem,
+      required this.quizItem,
       required this.correctAnswersCount,
       required this.onNextButtonTap})
       : super(key: key);
-  final Quize quizeItem;
+  final Quiz quizItem;
   final ValueNotifier<int> correctAnswersCount;
   final VoidCallback onNextButtonTap;
 
@@ -20,11 +20,11 @@ class QuizeItemWidget extends StatefulWidget {
   State<StatefulWidget> createState() => _State();
 }
 
-class _State extends State<QuizeItemWidget> with StateAddition {
+class _State extends State<QuizItemWidget> with StateAddition {
   var _isCorrect = false;
 
   final _selectedAnswerNotifier =ValueNotifier<int?>(null);
-  CorrectAnswer get _correctAnswer => widget.quizeItem.correctAnswer;
+  CorrectAnswer get _correctAnswer => widget.quizItem.correctAnswer;
   int? get _selectedAnswer => _selectedAnswerNotifier.value;
 
   @override
@@ -35,7 +35,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
             Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  child: _QuestionWidget(question: widget.quizeItem.question)),
+                  child: _QuestionWidget(question: widget.quizItem.question)),
               Expanded(
                   child: GridView.count(
                       addSemanticIndexes: false,
@@ -46,7 +46,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 0,
                             _correctAnswer.answerA == true),
-                        answer: widget.quizeItem.answer.answerA,
+                        answer: widget.quizItem.answer.answerA,
                         onTap: () {
                           _selectedAnswerNotifier.value = 0;
                           _correctAnswer.answerA == true;
@@ -54,7 +54,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 1,
                             _correctAnswer.answerB == true),
-                        answer: widget.quizeItem.answer.answerB,
+                        answer: widget.quizItem.answer.answerB,
                         onTap: () {
                           _selectedAnswerNotifier.value = 1;
                           _correctAnswer.answerB == true;
@@ -62,7 +62,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 2,
                             _correctAnswer.answerC == true),
-                        answer: widget.quizeItem.answer.answerC,
+                        answer: widget.quizItem.answer.answerC,
                         onTap: () {
                           _selectedAnswerNotifier.value = 2;
                           _correctAnswer.answerC == true;
@@ -70,7 +70,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 3,
                             _correctAnswer.answerD == true),
-                        answer: widget.quizeItem.answer.answerD,
+                        answer: widget.quizItem.answer.answerD,
                         onTap: () {
                           _selectedAnswerNotifier.value = 3;
                           _correctAnswer.answerD == true;
@@ -78,7 +78,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 4,
                             _correctAnswer.answerE == true),
-                        answer: widget.quizeItem.answer.answerE,
+                        answer: widget.quizItem.answer.answerE,
                         onTap: () {
                           _selectedAnswerNotifier.value = 4;
                           _correctAnswer.answerE == true;
@@ -86,7 +86,7 @@ class _State extends State<QuizeItemWidget> with StateAddition {
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 5,
                             _correctAnswer.answerF == true),
-                        answer: widget.quizeItem.answer.answerF,
+                        answer: widget.quizItem.answer.answerF,
                         onTap: () {
                           _selectedAnswerNotifier.value = 5;
                           _isCorrect = _correctAnswer.answerF == true;

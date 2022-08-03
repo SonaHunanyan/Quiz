@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 import 'package:quize/constants.dart' as constants;
-import 'package:quize/data/model/quize.dart';
+import 'package:quize/data/model/quiz.dart';
 import 'package:http/http.dart' as http;
 
-abstract class QuizeRepository {
+abstract class QuizRepository {
   /// Get quize questions by category and difficulty
-  Future<List<Quize>> getQuizeQuestions(String difficulty, String category);
+  Future<List<Quiz>> getQuizeQuestions(String difficulty, String category);
 }
 
-class IQuizeRepository implements QuizeRepository {
+class IQuizRepository implements QuizRepository {
   @override
-  Future<List<Quize>> getQuizeQuestions(
+  Future<List<Quiz>> getQuizeQuestions(
       String difficulty, String category) async {
-    final questions = <Quize>[];
+    final questions = <Quiz>[];
     final queryParameters = {'apiKey': constants.apiKey, 'limit': '10'};
     final uri = Uri.parse(constants.endpointUrl)
         .replace(queryParameters: queryParameters);
@@ -22,7 +22,7 @@ class IQuizeRepository implements QuizeRepository {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonResponse = jsonDecode(response.body);
       for (final item in jsonResponse) {
-        final question = Quize.fromJson(item);
+        final question = Quiz.fromJson(item);
         questions.add(question);
       }
     }

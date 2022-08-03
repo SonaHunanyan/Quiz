@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quize/presentation/quize/quize_screen.dart';
+import 'package:quize/presentation/quiz/quize_screen.dart';
 import 'package:quize/presentation/share/app_bar_title.dart';
 import 'package:quize/presentation/share/rounded_button.dart';
 import 'package:quize/presentation/state_addition_mixin.dart';

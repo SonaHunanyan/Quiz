@@ -1,8 +1,8 @@
 import 'package:quize/data/model/answer.dart';
 import 'package:quize/data/model/correct_answers.dart';
 
-class Quize {
-  const Quize(
+class Quiz {
+  const Quiz(
       {required this.answer,
       required this.category,
       required this.correctAnswer,
@@ -21,8 +21,8 @@ class Quize {
   final String category;
   final String difficulty;
 
-  factory Quize.fromJson(Map<String, dynamic> json) {
-    return Quize(
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+    return Quiz(
         id: json['id'] as int,
         question: json['question'] as String,
         description: json['description'] as String?,

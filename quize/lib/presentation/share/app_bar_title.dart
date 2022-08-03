@@ -6,7 +6,7 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Quize',
+    return Text('Quiz',
         style: getStyle(color: colorWhite, weight: FontWeight.w700));
   }
 }

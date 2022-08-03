@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:quize/presentation/home/home_screen.dart';
 
-abstract class QuizeEvent extends Equatable {}
+abstract class QuizEvent extends Equatable {}
 
-class GetQuestionsEvent extends QuizeEvent {
+class GetQuestionsEvent extends QuizEvent {
   GetQuestionsEvent({required this.difficulty});
   final Difficulty difficulty;
 
