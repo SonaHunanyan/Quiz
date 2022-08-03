@@ -26,12 +26,14 @@ class _State extends State<HomeScreen> {
   }
 
   Widget _renderBody() {
-    return SingleChildScrollView(child: Column(children: [_renderThemes()]));
+    return SingleChildScrollView(
+        child: Column(
+            children: [_renderThemes(), _StartButton(onTap: _onStartTap)]));
   }
 
   Widget _renderThemes() {
     return Padding(
-        padding: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.only(top: 60),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _ThemeWidget(
               isSelected: _selectedDiffilculty == Difficulty.easy,
@@ -57,6 +59,8 @@ class _State extends State<HomeScreen> {
       _selectedDiffilculty = Difficulty.hard;
     });
   }
+
+  void _onStartTap() {}
 
   Future<void> fetchAlbum() async {
     final queryParameters = {'apiKey': constants.apiKey, 'limit': '10'};
@@ -96,7 +100,7 @@ class _ThemeWidget extends StatelessWidget with StatelessAddition {
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Container(
-                height: 300,
+                height: 200,
                 width: width_(context) / 2 - 20,
                 decoration: BoxDecoration(
                     color: _backgroundColor,
@@ -119,6 +123,27 @@ class _DescriptionTextWidget extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20),
         child: Text('$title : $value',
             style: getStyle(color: colorWhite, weight: FontWeight.w700)));
+  }
+}
+
+class _StartButton extends StatelessWidget {
+  const _StartButton({required this.onTap});
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: onTap,
+        child: Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: Container(
+                alignment: Alignment.center,
+                height: 60,
+                width: 150,
+                decoration: BoxDecoration(
+                    color: colorPink, borderRadius: BorderRadius.circular(10)),
+                child: Text('Start',
+                    style: getStyle(
+                        color: colorWhite, weight: FontWeight.w600)))));
   }
 }
 
