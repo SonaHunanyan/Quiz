@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quize/presentation/quize/quize_screen.dart';
 import 'package:quize/presentation/share/app_bar_title.dart';
+import 'package:quize/presentation/share/rounded_button.dart';
 import 'package:quize/presentation/state_addition_mixin.dart';
 import 'package:quize/style.dart';
 
@@ -27,8 +28,10 @@ class _State extends State<HomeScreen> {
 
   Widget _renderBody() {
     return SingleChildScrollView(
-        child: Column(
-            children: [_renderThemes(), _StartButton(onTap: _onStartTap)]));
+        child: Column(children: [
+      _renderThemes(),
+      RoundedButton(onTap: _onStartTap, title: 'Start')
+    ]));
   }
 
   Widget _renderThemes() {
@@ -111,27 +114,6 @@ class _DescriptionTextWidget extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20),
         child: Text('$title : $value',
             style: getStyle(color: colorWhite, weight: FontWeight.w700)));
-  }
-}
-
-class _StartButton extends StatelessWidget {
-  const _StartButton({required this.onTap});
-  final VoidCallback onTap;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: onTap,
-        child: Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Container(
-                alignment: Alignment.center,
-                height: 60,
-                width: 150,
-                decoration: BoxDecoration(
-                    color: colorPink, borderRadius: BorderRadius.circular(10)),
-                child: Text('Start',
-                    style: getStyle(
-                        color: colorWhite, weight: FontWeight.w600)))));
   }
 }
 

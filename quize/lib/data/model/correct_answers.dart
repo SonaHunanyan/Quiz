@@ -16,11 +16,15 @@ class CorrectAnswer {
 
   factory CorrectAnswer.fromJson(Map<String, dynamic> json) {
     return CorrectAnswer(
-        answerA: json['answer_a'] as bool?,
-        answerB: json['answer_b'] as bool?,
-        answerC: json['answer_c'] as bool?,
-        answerD: json['answer_d'] as bool?,
-        answerE: json['answer_e'] as bool?,
-        answerF: json['answer_f'] as bool?);
+        answerA: (json['answer_a_correct'] as String).toBoolType,
+        answerB: (json['answer_b_correct'] as String).toBoolType,
+        answerC: (json['answer_c_correct'] as String).toBoolType,
+        answerD: (json['answer_d_correct'] as String).toBoolType,
+        answerE: (json['answer_e_correct'] as String).toBoolType,
+        answerF: (json['answer_f_correct'] as String).toBoolType);
   }
+}
+
+extension StringAddition on String{
+  bool get toBoolType=> this == 'true'?true:false;
 }
