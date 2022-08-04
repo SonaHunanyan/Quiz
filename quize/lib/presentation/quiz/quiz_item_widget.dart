@@ -40,61 +40,69 @@ class _State extends State<QuizItemWidget> with StateAddition {
                   padding: const EdgeInsets.only(top: 50),
                   child: _QuestionWidget(question: widget.quizItem.question)),
               Expanded(
-                  child: GridView.count(
-                      addSemanticIndexes: false,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 5,
-                      crossAxisSpacing: 10,
-                      children: [
-                    _AnswerWidget(
-                        backgroundColor: _backgroundColor(_selectedAnswer == 0,
-                            _correctAnswer.answerA == true),
-                        answer: widget.quizItem.answer.answerA,
-                        onTap: () {
-                          _selectedAnswerNotifier.value = 0;
-                          _isCorrect = _correctAnswer.answerA == true;
-                        }),
-                    _AnswerWidget(
-                        backgroundColor: _backgroundColor(_selectedAnswer == 1,
-                            _correctAnswer.answerB == true),
-                        answer: widget.quizItem.answer.answerB,
-                        onTap: () {
-                          _selectedAnswerNotifier.value = 1;
-                          _isCorrect = _correctAnswer.answerB == true;
-                        }),
-                    _AnswerWidget(
-                        backgroundColor: _backgroundColor(_selectedAnswer == 2,
-                            _correctAnswer.answerC == true),
-                        answer: widget.quizItem.answer.answerC,
-                        onTap: () {
-                          _selectedAnswerNotifier.value = 2;
-                          _isCorrect = _correctAnswer.answerC == true;
-                        }),
-                    _AnswerWidget(
-                        backgroundColor: _backgroundColor(_selectedAnswer == 3,
-                            _correctAnswer.answerD == true),
-                        answer: widget.quizItem.answer.answerD,
-                        onTap: () {
-                          _selectedAnswerNotifier.value = 3;
-                          _isCorrect = _correctAnswer.answerD == true;
-                        }),
-                    _AnswerWidget(
-                        backgroundColor: _backgroundColor(_selectedAnswer == 4,
-                            _correctAnswer.answerE == true),
-                        answer: widget.quizItem.answer.answerE,
-                        onTap: () {
-                          _selectedAnswerNotifier.value = 4;
-                          _isCorrect = _correctAnswer.answerE == true;
-                        }),
-                    _AnswerWidget(
-                        backgroundColor: _backgroundColor(_selectedAnswer == 5,
-                            _correctAnswer.answerF == true),
-                        answer: widget.quizItem.answer.answerF,
-                        onTap: () {
-                          _selectedAnswerNotifier.value = 5;
-                          _isCorrect = _correctAnswer.answerF == true;
-                        }),
-                  ])),
+                  child: IgnorePointer(
+                      ignoring: _selectedAnswer != null,
+                      child: GridView.count(
+                          addSemanticIndexes: false,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 10,
+                          children: [
+                            _AnswerWidget(
+                                backgroundColor: _backgroundColor(
+                                    _selectedAnswer == 0,
+                                    _correctAnswer.answerA == true),
+                                answer: widget.quizItem.answer.answerA,
+                                onTap: () {
+                                  _selectedAnswerNotifier.value = 0;
+                                  _isCorrect = _correctAnswer.answerA == true;
+                                }),
+                            _AnswerWidget(
+                                backgroundColor: _backgroundColor(
+                                    _selectedAnswer == 1,
+                                    _correctAnswer.answerB == true),
+                                answer: widget.quizItem.answer.answerB,
+                                onTap: () {
+                                  _selectedAnswerNotifier.value = 1;
+                                  _isCorrect = _correctAnswer.answerB == true;
+                                }),
+                            _AnswerWidget(
+                                backgroundColor: _backgroundColor(
+                                    _selectedAnswer == 2,
+                                    _correctAnswer.answerC == true),
+                                answer: widget.quizItem.answer.answerC,
+                                onTap: () {
+                                  _selectedAnswerNotifier.value = 2;
+                                  _isCorrect = _correctAnswer.answerC == true;
+                                }),
+                            _AnswerWidget(
+                                backgroundColor: _backgroundColor(
+                                    _selectedAnswer == 3,
+                                    _correctAnswer.answerD == true),
+                                answer: widget.quizItem.answer.answerD,
+                                onTap: () {
+                                  _selectedAnswerNotifier.value = 3;
+                                  _isCorrect = _correctAnswer.answerD == true;
+                                }),
+                            _AnswerWidget(
+                                backgroundColor: _backgroundColor(
+                                    _selectedAnswer == 4,
+                                    _correctAnswer.answerE == true),
+                                answer: widget.quizItem.answer.answerE,
+                                onTap: () {
+                                  _selectedAnswerNotifier.value = 4;
+                                  _isCorrect = _correctAnswer.answerE == true;
+                                }),
+                            _AnswerWidget(
+                                backgroundColor: _backgroundColor(
+                                    _selectedAnswer == 5,
+                                    _correctAnswer.answerF == true),
+                                answer: widget.quizItem.answer.answerF,
+                                onTap: () {
+                                  _selectedAnswerNotifier.value = 5;
+                                  _isCorrect = _correctAnswer.answerF == true;
+                                }),
+                          ]))),
               Container(
                   height: 160,
                   padding: const EdgeInsets.only(bottom: 10),

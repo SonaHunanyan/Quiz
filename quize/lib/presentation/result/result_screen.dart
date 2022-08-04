@@ -58,7 +58,7 @@ class _State extends State<ResultScreen> with StateAddition {
         Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              'Result',
+              'Results',
               textAlign: TextAlign.center,
               style: getStyle(
                   color: colorGrey, weight: FontWeight.w700, fontSize: 24),
