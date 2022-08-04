@@ -6,19 +6,19 @@ class Result {
       required this.trueCount,
       required this.wrongCount});
 
-  final String dateTime;
-  final String category;
-  final String difficulty;
-  final int trueCount;
-  final int wrongCount;
+  final String? dateTime;
+  final String? category;
+  final String? difficulty;
+  final int? trueCount;
+  final int? wrongCount;
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
-      dateTime: json['dateTime'] as String,
-      category: json['category'] as String,
-      difficulty: json['difficulty'] as String,
-      trueCount: json['trueCount'] as int,
-      wrongCount: json['wrongCount'] as int,
+      dateTime: json['dateTime'] as String?,
+      category: json['category'] as String?,
+      difficulty: json['difficulty'] as String?,
+      trueCount: json['trueCount'] as int?,
+      wrongCount: json['wrongCount'] as int?,
     );
   }
 
