@@ -15,3 +15,8 @@ class QuestionsLoadedState extends QuizState {
   @override
   List<Object?> get props => [quizeQuestions];
 }
+
+class ResultRegisrtatedState extends QuizState {
+  @override
+  List<Object?> get props => [];
+}

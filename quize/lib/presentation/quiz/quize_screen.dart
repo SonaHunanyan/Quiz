@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quize/data/model/quiz.dart';
+import 'package:quize/data/model/result.dart';
 import 'package:quize/data/repository/quiz_repository.dart';
+import 'package:quize/data/repository/result_repository.dart';
 import 'package:quize/presentation/home/home_screen.dart';
 import 'package:quize/presentation/quiz/quiz_event.dart';
 import 'package:quize/presentation/quiz/quiz_state.dart';
+import 'package:quize/presentation/result/result_screen.dart';
 import 'package:quize/presentation/share/app_bar_title.dart';
 import 'package:quize/style.dart';
 
@@ -29,7 +32,9 @@ class _State extends State<QuizeScreen> {
 
   @override
   void initState() {
-    _quizeBloc = QuizBloc(quizeRepository: IQuizRepository())
+    _quizeBloc = QuizBloc(
+        quizeRepository: IQuizRepository(),
+        resultRepository: IResultRepository())
       ..add(GetQuestionsEvent(difficulty: widget.selectedDifficulty));
     super.initState();
   }
@@ -71,9 +76,14 @@ class _State extends State<QuizeScreen> {
     );
   }
 
-  void _nextPage() {
-    _pageController.nextPage(
-        duration: const Duration(milliseconds: 150), curve: Curves.ease);
+  void _onFinish() {
+    final result = Result(
+        category: 'Linux',
+        dateTime: '12/12/12',
+        difficulty: widget.selectedDifficulty.name.toUpperCase(),
+        trueCount: _correctAnswersCount.value,
+        wrongCount: 10 - _correctAnswersCount.value);
+    _quizeBloc.add(ResigstrateResult(result: result));
   }
 }
 
@@ -85,8 +95,13 @@ extension _StateAddition on _State {
         _questionWidgets.add(QuizItemWidget(
             quizItem: element,
             correctAnswersCount: _correctAnswersCount,
-            onNextButtonTap: _nextPage));
+            pageController: _pageController,
+            onFinish: _onFinish));
       }
+    }
+    if (state is ResultRegisrtatedState) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const ResultScreen()));
     }
   }
 }

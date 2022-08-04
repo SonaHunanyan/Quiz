@@ -10,11 +10,13 @@ class QuizItemWidget extends StatefulWidget {
       {Key? key,
       required this.quizItem,
       required this.correctAnswersCount,
-      required this.onNextButtonTap})
+      required this.pageController,
+      required this.onFinish})
       : super(key: key);
   final Quiz quizItem;
   final ValueNotifier<int> correctAnswersCount;
-  final VoidCallback onNextButtonTap;
+  final PageController pageController;
+  final VoidCallback onFinish;
 
   @override
   State<StatefulWidget> createState() => _State();
@@ -23,9 +25,10 @@ class QuizItemWidget extends StatefulWidget {
 class _State extends State<QuizItemWidget> with StateAddition {
   var _isCorrect = false;
 
-  final _selectedAnswerNotifier =ValueNotifier<int?>(null);
+  final _selectedAnswerNotifier = ValueNotifier<int?>(null);
   CorrectAnswer get _correctAnswer => widget.quizItem.correctAnswer;
   int? get _selectedAnswer => _selectedAnswerNotifier.value;
+  PageController get _pageController => widget.pageController;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class _State extends State<QuizItemWidget> with StateAddition {
                         answer: widget.quizItem.answer.answerA,
                         onTap: () {
                           _selectedAnswerNotifier.value = 0;
-                          _correctAnswer.answerA == true;
+                          _isCorrect = _correctAnswer.answerA == true;
                         }),
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 1,
@@ -57,7 +60,7 @@ class _State extends State<QuizItemWidget> with StateAddition {
                         answer: widget.quizItem.answer.answerB,
                         onTap: () {
                           _selectedAnswerNotifier.value = 1;
-                          _correctAnswer.answerB == true;
+                          _isCorrect = _correctAnswer.answerB == true;
                         }),
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 2,
@@ -65,7 +68,7 @@ class _State extends State<QuizItemWidget> with StateAddition {
                         answer: widget.quizItem.answer.answerC,
                         onTap: () {
                           _selectedAnswerNotifier.value = 2;
-                          _correctAnswer.answerC == true;
+                          _isCorrect = _correctAnswer.answerC == true;
                         }),
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 3,
@@ -73,7 +76,7 @@ class _State extends State<QuizItemWidget> with StateAddition {
                         answer: widget.quizItem.answer.answerD,
                         onTap: () {
                           _selectedAnswerNotifier.value = 3;
-                          _correctAnswer.answerD == true;
+                          _isCorrect = _correctAnswer.answerD == true;
                         }),
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 4,
@@ -81,7 +84,7 @@ class _State extends State<QuizItemWidget> with StateAddition {
                         answer: widget.quizItem.answer.answerE,
                         onTap: () {
                           _selectedAnswerNotifier.value = 4;
-                          _correctAnswer.answerE == true;
+                          _isCorrect = _correctAnswer.answerE == true;
                         }),
                     _AnswerWidget(
                         backgroundColor: _backgroundColor(_selectedAnswer == 5,
@@ -113,7 +116,16 @@ class _State extends State<QuizItemWidget> with StateAddition {
       widget.correctAnswersCount.value++;
     }
     _selectedAnswerNotifier.value = null;
-    widget.onNextButtonTap.call();
+    _nextPage();
+  }
+
+  void _nextPage() {
+    _pageController.nextPage(
+        duration: const Duration(milliseconds: 150), curve: Curves.ease);
+    _isCorrect = false;
+    if (_pageController.page == 9) {
+      widget.onFinish();
+    }
   }
 }
 
