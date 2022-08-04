@@ -4,7 +4,8 @@ import 'package:quize/data/model/quiz.dart';
 import 'package:quize/data/model/result.dart';
 import 'package:quize/data/repository/quiz_repository.dart';
 import 'package:quize/data/repository/result_repository.dart';
-import 'package:quize/presentation/home/home_screen.dart';
+import 'package:quize/presentation/home/category_widget.dart';
+import 'package:quize/presentation/home/difficulty_widget.dart';
 import 'package:quize/presentation/quiz/quiz_event.dart';
 import 'package:quize/presentation/quiz/quiz_state.dart';
 import 'package:quize/presentation/result/result_screen.dart';
@@ -15,9 +16,11 @@ import 'quiz_bloc.dart';
 import 'quiz_item_widget.dart';
 
 class QuizeScreen extends StatefulWidget {
-  const QuizeScreen({Key? key, required this.selectedDifficulty})
+  const QuizeScreen(
+      {Key? key, required this.difficulty, required this.category})
       : super(key: key);
-  final Difficulty selectedDifficulty;
+  final Difficulty difficulty;
+  final Category category;
 
   @override
   State<StatefulWidget> createState() => _State();
@@ -35,7 +38,8 @@ class _State extends State<QuizeScreen> {
     _quizeBloc = QuizBloc(
         quizeRepository: IQuizRepository(),
         resultRepository: IResultRepository())
-      ..add(GetQuestionsEvent(difficulty: widget.selectedDifficulty));
+      ..add(GetQuestionsEvent(
+          difficulty: widget.difficulty, category: widget.category));
     super.initState();
   }
 
@@ -78,9 +82,9 @@ class _State extends State<QuizeScreen> {
 
   void _onFinish() {
     final result = Result(
-        category: 'Linux',
+        category: widget.category.name.toUpperCase(),
         timeStamp: DateTime.now().millisecondsSinceEpoch,
-        difficulty: widget.selectedDifficulty.name.toUpperCase(),
+        difficulty: widget.difficulty.name.toUpperCase(),
         trueCount: _correctAnswersCount.value,
         wrongCount: 10 - _correctAnswersCount.value);
     _quizeBloc.add(ResigstrateResult(result: result));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quize/presentation/home/category_widget.dart';
+import 'package:quize/presentation/home/difficulty_widget.dart';
 import 'package:quize/presentation/quiz/quize_screen.dart';
 import 'package:quize/presentation/share/app_bar_title.dart';
 import 'package:quize/presentation/share/rounded_button.dart';
@@ -14,8 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _State extends State<HomeScreen> {
   final _selectedCategory = ValueNotifier<Category>(Category.linux);
-
-  var _selectedDiffilculty = Difficulty.easy;
+  final _selectedDiffilculty = ValueNotifier<Difficulty>(Difficulty.easy);
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +39,25 @@ class _State extends State<HomeScreen> {
   Widget _renderThemes() {
     return Padding(
         padding: const EdgeInsets.only(top: 60),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ValueListenableBuilder(
-              valueListenable: _selectedCategory,
-              builder: (context, value, child) =>
-                  CategoryWidget(selectedCategory: _selectedCategory))
-        ]));
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ValueListenableBuilder(
+                  valueListenable: _selectedCategory,
+                  builder: (context, value, child) =>
+                      CategoryWidget(selectedCategory: _selectedCategory)),
+              ValueListenableBuilder(
+                  valueListenable: _selectedDiffilculty,
+                  builder: (context, value, child) => DifficultyWidget(
+                      selectedDifficulty: _selectedDiffilculty))
+            ]));
   }
 
   void _onStartTap() {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => QuizeScreen(
-              selectedDifficulty: _selectedDiffilculty,
-            )));
+            category: _selectedCategory.value,
+            difficulty: _selectedDiffilculty.value)));
   }
 }
-
-enum Difficulty { easy, medium, hard }

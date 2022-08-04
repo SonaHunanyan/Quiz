@@ -4,9 +4,10 @@ import 'package:quize/style.dart';
 
 import 'description_widget.dart';
 
-class CategoryWidget extends StatelessWidget with StatelessAddition {
-  CategoryWidget({Key? key, required this.selectedCategory}) : super(key: key);
-  final ValueNotifier<Category> selectedCategory;
+class DifficultyWidget extends StatelessWidget with StatelessAddition {
+  DifficultyWidget({Key? key, required this.selectedDifficulty})
+      : super(key: key);
+  final ValueNotifier<Difficulty> selectedDifficulty;
 
   Color get _backgroundColor => colorGrey;
 
@@ -15,13 +16,13 @@ class CategoryWidget extends StatelessWidget with StatelessAddition {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Container(
-            height: 400,
+            height: 200,
             width: width_(context) / 2 - 20,
             decoration: BoxDecoration(
                 color: _backgroundColor,
                 borderRadius: BorderRadius.circular(10)),
             child: ListView.builder(
-              itemCount: Category.values.length + 1,
+              itemCount: Difficulty.values.length + 1,
               itemBuilder: (BuildContext context, int index) =>
                   DescriptionTextWidget(
                 title: title(index),
@@ -32,7 +33,8 @@ class CategoryWidget extends StatelessWidget with StatelessAddition {
   }
 
   Color color(int index) {
-    if (index == 0 || Category.values[index - 1] != selectedCategory.value) {
+    if (index == 0 ||
+        Difficulty.values[index - 1] != selectedDifficulty.value) {
       return colorWhite;
     }
     return colorPink;
@@ -40,24 +42,16 @@ class CategoryWidget extends StatelessWidget with StatelessAddition {
 
   void _onTap(int index) {
     if (index > 0) {
-      selectedCategory.value = Category.values[index - 1];
+      selectedDifficulty.value = Difficulty.values[index - 1];
     }
   }
 
   String title(int index) {
     if (index == 0) {
-      return 'CATEGORY';
+      return 'DIFFICULTY';
     }
-    return Category.values[index - 1].name;
+    return Difficulty.values[index - 1].name;
   }
 }
 
-enum Category {
-  linux,
-  cloud,
-  devOps,
-  networking,
-  programming,
-  docker,
-  kubernetes
-}
+enum Difficulty { easy, medium, hard }
