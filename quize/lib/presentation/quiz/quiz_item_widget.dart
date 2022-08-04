@@ -24,6 +24,7 @@ class QuizItemWidget extends StatefulWidget {
 
 class _State extends State<QuizItemWidget> with StateAddition {
   var _isCorrect = false;
+  var _isFinished = false;
 
   final _selectedAnswerNotifier = ValueNotifier<int?>(null);
   CorrectAnswer get _correctAnswer => widget.quizItem.correctAnswer;
@@ -131,7 +132,8 @@ class _State extends State<QuizItemWidget> with StateAddition {
     _pageController.nextPage(
         duration: const Duration(milliseconds: 150), curve: Curves.ease);
     _isCorrect = false;
-    if (_pageController.page == 9) {
+    if (_pageController.page == 9 && _isFinished == false) {
+      _isFinished = true;
       widget.onFinish();
     }
   }
