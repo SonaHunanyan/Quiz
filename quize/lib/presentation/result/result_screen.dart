@@ -21,6 +21,7 @@ class ResultScreen extends StatefulWidget {
 class _State extends State<ResultScreen> with StateAddition {
   late final _resultBloc;
   var _results = <Result>[];
+  var _isLoading = true;
 
   @override
   void initState() {
@@ -51,6 +52,14 @@ class _State extends State<ResultScreen> with StateAddition {
   }
 
   Widget _renderBody() {
+    if (_isLoading) {
+      return Align(
+          child: Container(
+              alignment: Alignment.center,
+              height: 200,
+              width: 200,
+              child: const CircularProgressIndicator(color: colorPink)));
+    }
     return Center(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,6 +100,7 @@ class _State extends State<ResultScreen> with StateAddition {
 extension _StateAddition on _State {
   void _blocListener(BuildContext context, ResultState state) {
     if (state is ResultsLoaded) {
+      _isLoading = false;
       _results = state.results.reversed.toList();
     }
   }
