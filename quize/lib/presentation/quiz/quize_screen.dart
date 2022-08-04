@@ -29,6 +29,7 @@ class QuizeScreen extends StatefulWidget {
 class _State extends State<QuizeScreen> {
   late final QuizBloc _quizeBloc;
   var _quizeQuestions = <Quiz>[];
+  var _isLoading = true;
   final _questionWidgets = <Widget>[];
   final _correctAnswersCount = ValueNotifier<int>(0);
   final _pageController = PageController(initialPage: 0);
@@ -70,6 +71,14 @@ class _State extends State<QuizeScreen> {
   }
 
   Widget _renderBody() {
+    if (_isLoading) {
+      return Align(
+          child: Container(
+              alignment: Alignment.center,
+              height: 200,
+              width: 200,
+              child: const CircularProgressIndicator(color: colorPink)));
+    }
     if (_quizeQuestions.isEmpty) {
       return const SizedBox();
     }
@@ -94,6 +103,7 @@ class _State extends State<QuizeScreen> {
 extension _StateAddition on _State {
   void _blocListener(BuildContext context, QuizState state) {
     if (state is QuestionsLoadedState) {
+      _isLoading = false;
       _quizeQuestions = state.quizeQuestions;
       for (final element in _quizeQuestions) {
         _questionWidgets.add(QuizItemWidget(
