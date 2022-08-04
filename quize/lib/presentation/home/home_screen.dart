@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quize/presentation/home/category_widget.dart';
 import 'package:quize/presentation/quiz/quize_screen.dart';
 import 'package:quize/presentation/share/app_bar_title.dart';
 import 'package:quize/presentation/share/rounded_button.dart';
-import 'package:quize/presentation/state_addition_mixin.dart';
 import 'package:quize/style.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,6 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _State extends State<HomeScreen> {
+  final _selectedCategory = ValueNotifier<Category>(Category.linux);
+
   var _selectedDiffilculty = Difficulty.easy;
 
   @override
@@ -38,29 +40,11 @@ class _State extends State<HomeScreen> {
     return Padding(
         padding: const EdgeInsets.only(top: 60),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _ThemeWidget(
-              isSelected: _selectedDiffilculty == Difficulty.easy,
-              difficulty: Difficulty.easy.name.toUpperCase(),
-              category: Category.linux.name.toUpperCase(),
-              onTap: _onEasyTap),
-          _ThemeWidget(
-              isSelected: _selectedDiffilculty == Difficulty.hard,
-              difficulty: Difficulty.hard.name.toUpperCase(),
-              category: Category.cloud.name.toUpperCase(),
-              onTap: _onHardTap)
+          ValueListenableBuilder(
+              valueListenable: _selectedCategory,
+              builder: (context, value, child) =>
+                  CategoryWidget(selectedCategory: _selectedCategory))
         ]));
-  }
-
-  void _onEasyTap() {
-    setState(() {
-      _selectedDiffilculty = Difficulty.easy;
-    });
-  }
-
-  void _onHardTap() {
-    setState(() {
-      _selectedDiffilculty = Difficulty.hard;
-    });
   }
 
   void _onStartTap() {
@@ -71,52 +55,4 @@ class _State extends State<HomeScreen> {
   }
 }
 
-class _ThemeWidget extends StatelessWidget with StatelessAddition {
-  const _ThemeWidget(
-      {required this.isSelected,
-      required this.difficulty,
-      required this.category,
-      required this.onTap});
-  final bool isSelected;
-  final String difficulty;
-  final String category;
-  final VoidCallback onTap;
-
-  Color get _backgroundColor => isSelected ? colorPink : colorGrey;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: onTap,
-        child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-                height: 200,
-                width: width_(context) / 2 - 20,
-                decoration: BoxDecoration(
-                    color: _backgroundColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(children: [
-                  _DescriptionTextWidget(
-                      title: 'Difficulty', value: difficulty),
-                  _DescriptionTextWidget(title: 'Category', value: category)
-                ]))));
-  }
-}
-
-class _DescriptionTextWidget extends StatelessWidget {
-  const _DescriptionTextWidget({required this.title, required this.value});
-  final String title;
-  final String value;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: Text('$title : $value',
-            style: getStyle(color: colorWhite, weight: FontWeight.w700)));
-  }
-}
-
-enum Category { linux, cloud }
-
-enum Difficulty { easy, hard }
+enum Difficulty { easy, medium, hard }
