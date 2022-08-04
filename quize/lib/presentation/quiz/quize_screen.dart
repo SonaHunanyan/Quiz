@@ -79,7 +79,7 @@ class _State extends State<QuizeScreen> {
   void _onFinish() {
     final result = Result(
         category: 'Linux',
-        dateTime: '12/12/12',
+        timeStamp: DateTime.now().millisecondsSinceEpoch,
         difficulty: widget.selectedDifficulty.name.toUpperCase(),
         trueCount: _correctAnswersCount.value,
         wrongCount: 10 - _correctAnswersCount.value);

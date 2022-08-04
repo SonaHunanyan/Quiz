@@ -1,12 +1,12 @@
 class Result {
   Result(
       {required this.category,
-      required this.dateTime,
+      required this.timeStamp,
       required this.difficulty,
       required this.trueCount,
       required this.wrongCount});
 
-  final String? dateTime;
+  final int? timeStamp;
   final String? category;
   final String? difficulty;
   final int? trueCount;
@@ -14,7 +14,7 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) {
     return Result(
-      dateTime: json['dateTime'] as String?,
+      timeStamp: json['timeStamp'] as int?,
       category: json['category'] as String?,
       difficulty: json['difficulty'] as String?,
       trueCount: json['trueCount'] as int?,
@@ -24,7 +24,7 @@ class Result {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'dateTime': dateTime,
+      'timeStamp': timeStamp,
       'category': category,
       'difficulty': difficulty,
       'trueCount': trueCount,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:quize/data/model/result.dart';
 import 'package:quize/data/repository/result_repository.dart';
 import 'package:quize/presentation/result/result_bloc.dart';
 import 'package:quize/presentation/result/result_event.dart';
 import 'package:quize/presentation/result/result_state.dart';
 import 'package:quize/presentation/share/app_bar_title.dart';
+import 'package:quize/presentation/share/rounded_button.dart';
 import 'package:quize/presentation/state_addition_mixin.dart';
 import 'package:quize/style.dart';
 
@@ -40,6 +42,7 @@ class _State extends State<ResultScreen> with StateAddition {
   Widget _render() {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const AppBarTitle(),
           backgroundColor: colorPink,
         ),
@@ -65,12 +68,21 @@ class _State extends State<ResultScreen> with StateAddition {
             : Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: SizedBox(
-                    height: height_ - 200,
+                    height: height_ - 310,
                     child: ListView.builder(
                       itemCount: _results.length,
                       itemBuilder: (BuildContext context, int index) =>
                           _ResultItemWidget(result: _results[index]),
-                    )))
+                    ))),
+        Container(
+            alignment: Alignment.topCenter,
+            height: 150,
+            padding: const EdgeInsets.only(bottom: 10),
+            child: RoundedButton(
+                onTap: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
+                title: 'Finish'))
       ],
     ));
   }
@@ -79,7 +91,7 @@ class _State extends State<ResultScreen> with StateAddition {
 extension _StateAddition on _State {
   void _blocListener(BuildContext context, ResultState state) {
     if (state is ResultsLoaded) {
-      _results = state.results;
+      _results = state.results.reversed.toList();
     }
   }
 }
@@ -105,7 +117,8 @@ class _ResultItemWidget extends StatelessWidget with StatelessAddition {
                   title: 'Right answers', value: '${result.trueCount}'),
               _ResultField(
                   title: 'Wrong answers', value: '${result.wrongCount}'),
-              _ResultField(title: 'Date Time', value: '${result.dateTime}'),
+              _ResultField(
+                  title: 'Date Time', value: '${result.timeStamp.toDate}'),
             ])));
   }
 }
@@ -131,5 +144,17 @@ class _TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         style: getStyle(color: colorWhite, weight: FontWeight.w700));
+  }
+}
+
+extension _TimeStampAddition on int? {
+  String? get toDate {
+    final timeStamp = this;
+    if (timeStamp == null) {
+      return '';
+    }
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
+    final dateText = DateFormat('MM/dd/yy hh:mm').format(dateTime);
+    return dateText;
   }
 }
